@@ -1,0 +1,93 @@
+'$schema' = 'https://starship.rs/config-schema.json'
+
+
+format = """
+[┌─](#3366aa)\
+[ $username ](bg:#3366aa fg:white bold)\
+[  ](bg:#ffaa00 fg:#330066)\
+[ $hostname ](bg:#003300 fg:white)\
+[ $directory ](bg:#191970 fg:#ffaa00)\
+[$python](bg:#dcdcdc fg:green)\
+[$ruby](bg:#dcdcdc fg:red)\
+[$rlang](bg:#dcdcdc fg:#3366aa)\
+[$git_branch$git_status$git_commit](bg:#330066 fg:white)\
+$fill \
+$jobs
+[│](#3366aa) 
+[└─](#3366aa)$character
+"""
+
+
+[character]
+success_symbol = '[](#3366aa)'
+error_symbol = '[](red)'
+
+
+[directory]
+home_symbol = '~'
+read_only = ' '
+read_only_style	= 'bg:#191970 fg:red'
+truncation_length = 3
+truncation_symbol = '…/'
+truncate_to_repo = false
+format = '$path[$read_only]($read_only_style)'
+
+
+[fill]
+symbol = ' '
+
+
+[git_branch]
+format = '  $branch '
+
+
+[git_commit]
+format = ' $tag '
+tag_disabled = false
+only_detached = false
+tag_symbol = '󰓻'
+
+
+[git_status]
+format = '[ $conflicted$staged$modified$renamed$deleted$untracked$stashed$ahead$behind](bg:#330066 fg:#ffaa00 bold)'
+conflicted = ' '
+staged = '${count} '
+modified = '${count}󰙏 '
+renamed = '${count} '
+deleted = '${count} '
+untracked = '${count}? '
+stashed = '${count} '
+ahead = '${count} '
+behind = '${count} '
+
+
+[hostname]
+ssh_only = false
+format = '$hostname'
+disabled = false
+
+
+[jobs]
+symbol = 'jobs: '
+number_threshold = 1
+symbol_threshold = 1
+
+
+[python]
+symbol = ''
+format = ' ${symbol} ${version}\($virtualenv\) '
+
+
+[rlang]
+symbol = 'R'
+format = ' $symbol $version '
+
+
+[ruby]
+symbol = ''
+format = ' $symbol $version '
+
+
+[username]
+format = '$user'
+show_always = true
