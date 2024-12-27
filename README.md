@@ -219,6 +219,12 @@ Let's go. Reboot into your new Ubuntu, open a terminal and:
 # Setup some basic packages
 sudo apt install -y autoconf build-essential cmake gfortran libbz2-1.0 libbz2-dev libcurl3-dev libdb-dev libffi-dev libgdbm-dev libgdbm6 libgmp-dev liblzma-dev liblzma5 libncurses5-dev libpcre2-dev libreadline-dev libreadline6-dev libssl-dev libyaml-dev neovim patch python3-dev ruby-build tk tk-dev tklib uuid-dev xorg-dev zlib1g-dev zsh zsh-syntax-highlighting
 
+
+# If zsh is not your shell...
+sudo chsh -s /bin/zsh $(whoami)
+zsh
+
+
 # Install Lazy Git
 cd /tmp
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
@@ -227,8 +233,6 @@ tar xf lazygit.tar.gz lazygit
 sudo install lazygit -D -t /usr/local/bin/
 lazygit --version
 
-# Install ASDF
-git clone https://github.com/asdf-vm/asdf.git ~/.asdf
 
 # Backup your existing rc files
 cd ~
@@ -236,6 +240,59 @@ mkdir .old_rc_files
 mv .bashrc .bash_history .bash_logout .bash_profile \
     .profile .zshrc .zsh .zsh_history .oh-my-zsh \
     .bash_facilities .zsh_facilities .old_rc_files
+mkdir ~/.zsh
+
+
+# Better suggestions
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+
+# Install ASDF
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+source "$HOME/.asdf/asdf.sh"
+fpath=(${ASDF_DIR}/completions $fpath)
+autoload -Uz compinit && compinit
+
+
+# Install things with ASDF
+asdf plugin add python
+asdf plugin add ruby
+asdf plugin add rust
+asdf plugin add nodejs
+asdf plugin add golang
+asdf plugin add r
+
+asdf install rust 1.83.0
+asdf global rust 1.83.0
+
+asdf install python 3.12.1
+asdf global python 3.12.1
+
+asdf install ruby 3.3.6
+asdf global ruby 3.3.6
+
+asdf install nodejs 22.12.0
+asdf global nodejs 22.12.0
+
+asdf install golang 1.22.10
+asdf global golang 1.22.10
+
+asdf install r 4.4.2
+asdf global r 4.4.2
+
+
+# New binary utils
+asdf reshim
+rehash
+cargo install bat exa fd-find procs du-dust starship ytop ripgrep
+asdf reshim
+rehash
+
+
+# Lunar VIM :D
+LV_BRANCH='release-1.4/neovim-0.9' bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.4/neovim-0.9/utils/installer/install.sh)
+
 
 # Create your new files
 cat > ~/.zshrc <<EOF
@@ -366,6 +423,10 @@ format = ' $symbol $version '
 format = '$user'
 show_always = true
 EOF
+
+
+# Reload
+source ~/.zshrc
 
 ```
 
